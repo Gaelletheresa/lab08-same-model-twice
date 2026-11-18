@@ -1,0 +1,5 @@
+run,hidden,lr,batch_size,epochs,best_epoch,best_val_mae,final_train_loss,final_val_loss
+main,64,0.001,64,200,198,2.605,10.447,16.721
+lr_too_small,64,1e-05,64,200,200,9.135,179.529,180.93
+lr_too_large,64,0.1,64,200,35,2.707,15.955,17.526
+wide_network,512,0.001,64,200,60,2.427,6.433,15.972
