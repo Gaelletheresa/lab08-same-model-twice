@@ -5,6 +5,7 @@ from keras_model import build_keras_model
 from prepare import make_loaders
 from train import MAIN_RUN, REPORTS, SEED, arrays_from, plot_curves
 
+
 def load_arrays(batch_size=MAIN_RUN["batch_size"]):
     """The same prepared rows PyTorch trains on, as NumPy arrays."""
     train_loader, val_loader, test_loader = make_loaders(batch_size=batch_size)
@@ -21,7 +22,7 @@ def train_keras_model(config, data, checkpoint_path=None, seed=SEED):
     Returns (model, history, best_epoch). The history has one row per epoch
     with train_loss, val_loss and val_mae. Epochs are numbered from 1.
     """
-    keras.utils.set_random_seed(seed)   
+    keras.utils.set_random_seed(seed)
     (x_train, y_train), (x_val, y_val), _ = data
 
     model = build_keras_model(hidden=config["hidden"])
