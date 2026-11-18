@@ -3,8 +3,7 @@ import pandas as pd
 
 from keras_model import build_keras_model
 from prepare import make_loaders
-from train import MAIN_RUN, SEED, arrays_from
-
+from train import MAIN_RUN, REPORTS, SEED, arrays_from, plot_curves
 
 def load_arrays(batch_size=MAIN_RUN["batch_size"]):
     """The same prepared rows PyTorch trains on, as NumPy arrays."""
@@ -70,3 +69,25 @@ def train_keras_model(config, data, checkpoint_path=None):
     )
     best_epoch = int(history["val_loss"].idxmin()) + 1
     return model, history, best_epoch
+
+
+def main():
+    """Train the Keras main run and save its history, plot and best model."""
+    REPORTS.mkdir(exist_ok=True)
+    data = load_arrays()
+    model, history, best_epoch = train_keras_model(
+        MAIN_RUN, data, REPORTS / "best_model_keras.keras"
+    )
+    history.to_csv(REPORTS / "history_keras.csv", index=False)
+    plot_curves(
+        history.to_dict("records"),
+        best_epoch,
+        REPORTS / "learning_curves_keras.png",
+        "Keras main run",
+    )
+    best = history.loc[best_epoch - 1]
+    print(f"best epoch {best_epoch}, validation MAE {best['val_mae']:.3f}")
+
+
+if __name__ == "__main__":
+    main()
