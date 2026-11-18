@@ -15,13 +15,13 @@ def load_arrays(batch_size=MAIN_RUN["batch_size"]):
     )
 
 
-def train_keras_model(config, data, checkpoint_path=None):
+def train_keras_model(config, data, checkpoint_path=None, seed=SEED):
     """Train the Keras network with compile and fit.
 
     Returns (model, history, best_epoch). The history has one row per epoch
     with train_loss, val_loss and val_mae. Epochs are numbered from 1.
     """
-    keras.utils.set_random_seed(SEED)
+    keras.utils.set_random_seed(seed)   
     (x_train, y_train), (x_val, y_val), _ = data
 
     model = build_keras_model(hidden=config["hidden"])
